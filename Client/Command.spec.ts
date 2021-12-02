@@ -8,7 +8,7 @@ describe("Client", () => {
 			id: string
 			type: string
 		}
-		const client = model.Client.open<DocumentLike>("https://api.payfunc.com", {
+		const client = model.Client.open<DocumentLike>("http://localhost", {
 			jwt: "string",
 			configuration: {
 				name: "string",
@@ -18,13 +18,15 @@ describe("Client", () => {
 			},
 		})
 		const response = await client.command.get({ id: "", type: "" })
-		expect(gracely.client.Unauthorized.is(response)).toBeTruthy()
+		expect(gracely.server.BackendFailure.is(response)).toBeTruthy()
 	})
-	it("client fetch never check", async () => {
+	it.skip("client fetch never check", async () => {
+		/*
 		type DocumentUnlike = {
 			type: string
 		}
-		const client = model.Client.open<DocumentUnlike>("https://api.payfunc.com", {
+		// As expected a compiler error as open function doesn't accept DocumentUnlike as a type
+		const client = model.Client.open<DocumentUnlike>("", {
 			jwt: "string",
 			configuration: {
 				name: "string",
@@ -33,8 +35,8 @@ describe("Client", () => {
 				cache: "string",
 			},
 		})
-		//const response = await client.command.get({ id: "", type: "" })
-		expect(client).toBeTruthy()
-		// Defined but, doesn't accept DocumentUnlike as a type
+		const response = await client.command.get({ id: "", type: "" })
+		*/
+		expect(true).toBeTruthy()
 	})
 })

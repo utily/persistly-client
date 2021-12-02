@@ -18,7 +18,7 @@ export class Client<T extends model.Document> {
 		}
 	) {}
 
-	static open<T>(
+	static open<T extends model.Document>(
 		url: string,
 		key: {
 			jwt: string
@@ -30,7 +30,7 @@ export class Client<T extends model.Document> {
 			}
 		}
 	): Client<T extends model.Document ? T : never>
-	static open<T>(
+	static open<T extends model.Document>(
 		url?: string,
 		key?: {
 			jwt: string
@@ -42,7 +42,7 @@ export class Client<T extends model.Document> {
 			}
 		}
 	): Client<T extends model.Document ? T : never> | undefined
-	static open<T>(
+	static open<T extends model.Document>(
 		url?: string,
 		key?: {
 			jwt: string
