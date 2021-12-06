@@ -1,13 +1,19 @@
 {
 	"extends": "./tsconfig.test.json",
 	"compilerOptions": {
+		"target": "es2021",
+		"module": "es2020",
 		"declaration": true,
 		"sourceMap": true,
 		"sourceRoot": "../",
 		"outDir": "dist",
 		"baseUrl": ".",
-		"paths": { "*": ["types/*"] },
-		"allowSyntheticDefaultImports":true
+		"paths": {
+			"*": [
+				"types/*"
+			]
+		},
+		"allowSyntheticDefaultImports": true
 	},
 	"files": [
 		"index.ts",
