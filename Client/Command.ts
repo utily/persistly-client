@@ -5,20 +5,13 @@ import * as http from "cloud-http"
 export class Command<T extends model.Document> {
 	constructor(
 		readonly connection: http.Client<Command<T extends model.Document ? T : gracely.Error>>,
-		readonly collection: {
-			jwt: string
-			configuration: {
-				name: string
-				shard: string
-				idLength?: 4 | 8 | 12 | 16 | undefined
-				cache: string
-			}
-		}
+		readonly url: string,
+		readonly name?: string
 	) {}
 	async create(request: T | T[]): Promise<T | T[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>("", {
+		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>(this.url, {
 			command: "create",
-			name: this.collection.configuration.name,
+			name: this.name,
 			request,
 		})
 		return (
@@ -30,9 +23,9 @@ export class Command<T extends model.Document> {
 		)
 	}
 	async delete(request: model.Filter<T>): Promise<T | T[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Delete<T> | gracely.Error>("", {
+		const result = await this.connection.post<model.Command.Delete<T> | gracely.Error>(this.url, {
 			command: "delete",
-			name: this.collection.configuration.name,
+			name: this.name,
 			request,
 		})
 		return (
@@ -44,10 +37,10 @@ export class Command<T extends model.Document> {
 		)
 	}
 	async get(request: model.Filter<T>): Promise<T | gracely.Error> {
-		const result = await this.connection.post<model.Command.Get<T> | gracely.Error>("", [
+		const result = await this.connection.post<model.Command.Get<T> | gracely.Error>(this.url, [
 			{
 				command: "get",
-				name: this.collection.configuration.name,
+				name: this.name,
 				request,
 			},
 		])
@@ -60,10 +53,10 @@ export class Command<T extends model.Document> {
 		)
 	}
 	async list(request?: model.Filter<T>): Promise<T | T[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.List<T> | gracely.Error>("", [
+		const result = await this.connection.post<model.Command.List<T> | gracely.Error>(this.url, [
 			{
 				command: "list",
-				name: this.collection.configuration.name,
+				name: this.name,
 				request,
 			},
 		])
@@ -78,9 +71,9 @@ export class Command<T extends model.Document> {
 	async update(
 		request: (model.Filter<T> & model.Update<T> & model.Options) | (model.Filter<T> & model.Update<T> & model.Options)[]
 	): Promise<number | T | (number | T)[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Update<T> | gracely.Error>("", {
+		const result = await this.connection.post<model.Command.Update<T> | gracely.Error>(this.url, {
 			command: "update",
-			name: this.collection.configuration.name,
+			name: this.name,
 			request,
 		})
 		return (
@@ -91,43 +84,10 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	static open<T>(
-		url: string,
-		key: {
-			jwt: string
-			configuration: {
-				name: string
-				shard: string
-				idLength?: 4 | 8 | 12 | 16 | undefined
-				cache: string
-			}
-		}
-	): Command<T extends model.Document ? T : never>
-	static open<T>(
-		url?: string,
-		key?: {
-			jwt: string
-			configuration: {
-				name: string
-				shard: string
-				idLength?: 4 | 8 | 12 | 16 | undefined
-				cache: string
-			}
-		}
-	): Command<T extends model.Document ? T : never> | undefined
-	static open<T>(
-		url?: string,
-		key?: {
-			jwt: string
-			configuration: {
-				name: string
-				shard: string
-				idLength?: 4 | 8 | 12 | 16 | undefined
-				cache: string
-			}
-		}
-	): Command<T extends model.Document ? T : never> | undefined {
-		const connection = new http.Client<Command<T extends model.Document ? T : never>>(url, key?.jwt)
-		return connection && key && new Command<T extends model.Document ? T : never>(connection, key)
+	static open<T>(url: string, key: string, name: string): Command<T extends model.Document ? T : never>
+	static open<T>(url?: string, key?: string, name?: string): Command<T extends model.Document ? T : never> | undefined
+	static open<T>(url?: string, key?: string, name?: string): Command<T extends model.Document ? T : never> | undefined {
+		const connection = new http.Client<Command<T extends model.Document ? T : never>>(url, key)
+		return connection && new Command<T extends model.Document ? T : never>(connection, url ?? "", name)
 	}
 }
