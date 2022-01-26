@@ -13,7 +13,7 @@ export class Client<T extends model.Document> {
 	static open<T extends model.Document>(
 		url: string,
 		key: string,
-		name: string
+		name?: string
 	): Client<T extends model.Document ? T : never>
 	static open<T extends model.Document>(
 		url?: string,

@@ -7,10 +7,10 @@ export class Command<T extends model.Document> {
 		readonly connection: http.Client<Command<T extends model.Document ? T : gracely.Error>>,
 		readonly name?: string
 	) {}
-	async create(request: T | T[]): Promise<T | T[] | gracely.Error> {
+	async create(request: T | T[], name?: string): Promise<T | T[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>("", {
 			command: "create",
-			name: this.name,
+			name: name ?? this.name,
 			request,
 		})
 		return (
@@ -21,10 +21,10 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	async delete(request: model.Filter<T>): Promise<T | T[] | gracely.Error> {
+	async delete(request: model.Filter<T>, name?: string): Promise<T | T[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.Delete<T> | gracely.Error>("", {
 			command: "delete",
-			name: this.name,
+			name: name ?? this.name,
 			request,
 		})
 		return (
@@ -35,11 +35,11 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	async get(request: model.Filter<T>): Promise<T | gracely.Error> {
+	async get(request: model.Filter<T>, name?: string): Promise<T | gracely.Error> {
 		const result = await this.connection.post<model.Command.Get<T> | gracely.Error>("", [
 			{
 				command: "get",
-				name: this.name,
+				name: name ?? this.name,
 				request,
 			},
 		])
@@ -51,11 +51,11 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	async list(request?: model.Filter<T>): Promise<T | T[] | gracely.Error> {
+	async list(request?: model.Filter<T>, name?: string): Promise<T | T[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.List<T> | gracely.Error>("", [
 			{
 				command: "list",
-				name: this.name,
+				name: name ?? this.name,
 				request,
 			},
 		])
@@ -68,11 +68,14 @@ export class Command<T extends model.Document> {
 		)
 	}
 	async update(
-		request: (model.Filter<T> & model.Update<T> & model.Options) | (model.Filter<T> & model.Update<T> & model.Options)[]
+		request:
+			| (model.Filter<T> & model.Update<T> & model.Options)
+			| (model.Filter<T> & model.Update<T> & model.Options)[],
+		name?: string
 	): Promise<number | T | (number | T)[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.Update<T> | gracely.Error>("", {
 			command: "update",
-			name: this.name,
+			name: name ?? this.name,
 			request,
 		})
 		return (
@@ -83,10 +86,10 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	static open<T>(url: string, key: string, name: string): Command<T extends model.Document ? T : never>
+	static open<T>(url: string, key: string, name?: string): Command<T extends model.Document ? T : never>
 	static open<T>(url?: string, key?: string, name?: string): Command<T extends model.Document ? T : never> | undefined
 	static open<T>(url?: string, key?: string, name?: string): Command<T extends model.Document ? T : never> | undefined {
 		const connection = new http.Client<Command<T extends model.Document ? T : never>>(url, key)
-		return connection && new Command<T extends model.Document ? T : never>(connection, name)
+		return connection && new Command<T extends model.Document ? T : never>(connection)
 	}
 }
