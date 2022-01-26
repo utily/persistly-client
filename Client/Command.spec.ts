@@ -8,15 +8,7 @@ describe("Client", () => {
 			id: string
 			type: string
 		}
-		const client = model.Client.open<DocumentLike>("http://localhost", {
-			jwt: "string",
-			configuration: {
-				name: "string",
-				shard: "string",
-				idLength: 4,
-				cache: "string",
-			},
-		})
+		const client = model.Client.open<DocumentLike>("http://localhost", "string", "name")
 		const response = await client.command.get({ id: "", type: "" })
 		expect(gracely.server.BackendFailure.is(response)).toBeTruthy()
 	})
