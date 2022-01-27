@@ -51,7 +51,7 @@ export class Command<T extends model.Document> {
 				: undefined) ?? gracely.server.backendFailure("Failed to return a response.")
 		)
 	}
-	async list(request?: model.Filter<T>): Promise<T | T[] | gracely.Error> {
+	async list(request?: model.Filter<T>): Promise<T[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.List<T> | gracely.Error>("", [
 			{
 				command: "list",
