@@ -8,11 +8,13 @@ export class Command<T extends model.Document> {
 		readonly name?: string
 	) {}
 	async create(request: T | T[]): Promise<T | T[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>("", {
-			command: "create",
-			name: this.name,
-			request,
-		})
+		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>("", [
+			{
+				command: "create",
+				name: this.name,
+				request,
+			},
+		])
 		return (
 			(gracely.Error.is(result)
 				? result
@@ -22,11 +24,13 @@ export class Command<T extends model.Document> {
 		)
 	}
 	async delete(request: model.Filter<T>): Promise<T | T[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Delete<T> | gracely.Error>("", {
-			command: "delete",
-			name: this.name,
-			request,
-		})
+		const result = await this.connection.post<model.Command.Delete<T> | gracely.Error>("", [
+			{
+				command: "delete",
+				name: this.name,
+				request,
+			},
+		])
 		return (
 			(gracely.Error.is(result)
 				? result
@@ -70,11 +74,13 @@ export class Command<T extends model.Document> {
 	async update(
 		request: (model.Filter<T> & model.Update<T> & model.Options) | (model.Filter<T> & model.Update<T> & model.Options)[]
 	): Promise<number | T | (number | T)[] | gracely.Error> {
-		const result = await this.connection.post<model.Command.Update<T> | gracely.Error>("", {
-			command: "update",
-			name: this.name,
-			request,
-		})
+		const result = await this.connection.post<model.Command.Update<T> | gracely.Error>("", [
+			{
+				command: "update",
+				name: this.name,
+				request,
+			},
+		])
 		return (
 			(gracely.Error.is(result)
 				? result
