@@ -28,7 +28,7 @@
       "^.+\\.(j|t)sx?$": "ts-jest"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(cryptly|authly|isoly|gracely|persistly-model|cloud-http|cloud-router)/.*)"
+      "<rootDir>/node_modules/(?!(cryptly|authly|isoly|gracely|persistly-model|cloudly-http|cloudly-router)/.*)"
     ],
     "testEnvironment": "node",
     "testRegex": "((\\.|/)(test|spec))(\\.|\\/.+)(jsx?|tsx?)$",
@@ -55,10 +55,10 @@
     "clean": "rimraf dist node_modules coverage"
   },
   "dependencies": {
+    "cloudly-http": "0.0.50",
+    "cloudly-router": "0.0.24",
     "gracely": "0.1.8",
-    "persistly-model": "0.0.11",
-    "cloud-http": "0.0.35",
-    "cloud-router": "0.0.19"
+    "persistly-model": "0.0.11"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
