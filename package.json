@@ -28,7 +28,7 @@
       "^.+\\.(j|t)sx?$": "ts-jest"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(cryptly|authly|isoly|gracely|persistly-model|cloudly-http|cloudly-router)/.*)"
+      "<rootDir>/node_modules/(?!(cryptly|authly|isoly|gracely|persistly-model|cloudly-http)/.*)"
     ],
     "testEnvironment": "node",
     "testRegex": "((\\.|/)(test|spec))(\\.|\\/.+)(jsx?|tsx?)$",
@@ -56,19 +56,18 @@
   },
   "dependencies": {
     "cloudly-http": "0.0.50",
-    "cloudly-router": "0.0.24",
     "gracely": "0.1.8",
     "persistly-model": "0.0.11"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@typescript-eslint/eslint-plugin": "5.2.0",
-    "@typescript-eslint/parser": "5.2.0",
-    "eslint": "8.1.0",
-    "eslint-plugin-prettierx": "github:nilssonemma/eslint-plugin-prettierx#master",
+   	"@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-prettierx": "github:utily/eslint-plugin-prettierx#utily-20220323",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.3.1",
-    "prettierx": "github:simonmika/prettierx#newline-before-clause",
+    "prettierx": "github:utily/prettierx#utily-20220323",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4",
