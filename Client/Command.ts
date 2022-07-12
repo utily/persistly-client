@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
 import * as model from "persistly-model"
-import * as http from "cloud-http"
+import * as http from "cloudly-http"
 
 export class Command<T extends model.Document> {
 	constructor(
