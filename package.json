@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "cloudly-http": "0.0.50",
-    "gracely": "0.1.8",
+    "gracely": "2.0.3",
     "persistly-model": "0.0.11"
   },
   "devDependencies": {
