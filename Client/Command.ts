@@ -7,6 +7,8 @@ export class Command<T extends model.Document> {
 		readonly connection: http.Client<Command<T extends model.Document ? T : gracely.Error>>,
 		readonly name?: string
 	) {}
+	async create(request: T): Promise<T | gracely.Error>
+	async create(request: T[]): Promise<T[] | gracely.Error>
 	async create(request: T | T[]): Promise<T | T[] | gracely.Error> {
 		const result = await this.connection.post<model.Command.Create<T> | gracely.Error>("", [
 			{
